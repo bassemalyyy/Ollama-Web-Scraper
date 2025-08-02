@@ -35,7 +35,7 @@ https://github.com/user-attachments/assets/217aa0f8-b070-4002-b9fb-de1634082a62
 
     ```bash
     git clone https://github.com/bassemalyyy/Ollama-Web-Scraper.git
-    cd ai-web-scraper
+    cd Ollama-Web-Scraper
     ```
 
 2.  **Create virtual environment**
