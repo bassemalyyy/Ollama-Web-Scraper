@@ -120,14 +120,14 @@ Bot: 🎯 Extraction Results
 ---------------------
 
 ```bash
-ai-web-scraper/
+ollama_web_scrape/
 ├── main.py                          # Main Chainlit application
-├── ollama_web_scrape/
-│   └── utils/
+└── utils/
 │       ├── __init__.py
 │       ├── web_scrape.py            # Web scraping utilities
 │       └── parse.py                 # AI parsing with Ollama
 ├── requirements.txt                 # Python dependencies
+├── chromedriver.exe                # Chrome Web driver
 ├── README.md                       # This file
 └── .gitignore                      # Git ignore file
 
