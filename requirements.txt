@@ -1,0 +1,7 @@
+chainlit
+langchain 
+langchain_ollama
+selenium
+beautifulsoup4
+lxml 
+webdriver-manager

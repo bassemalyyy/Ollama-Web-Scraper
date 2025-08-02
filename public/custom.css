@@ -1,0 +1,62 @@
+/* Custom CSS for larger fonts */
+.MuiTypography-root {
+    font-size: 16px !important;
+}
+
+.MuiTypography-body1 {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+.MuiTypography-body2 {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
+
+.MuiTypography-h1 {
+    font-size: 2.5rem !important;
+}
+
+.MuiTypography-h2 {
+    font-size: 2rem !important;
+}
+
+.MuiTypography-h3 {
+    font-size: 1.75rem !important;
+}
+
+.MuiTypography-h4 {
+    font-size: 1.5rem !important;
+}
+
+.MuiTypography-h5 {
+    font-size: 1.25rem !important;
+}
+
+.MuiTypography-h6 {
+    font-size: 1.125rem !important;
+}
+
+/* Chat messages */
+.message-content {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+/* Input field */
+.MuiInputBase-input {
+    font-size: 16px !important;
+}
+
+/* Code blocks */
+pre, code {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
+
+/* List items */
+li {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 8px !important;
+}
