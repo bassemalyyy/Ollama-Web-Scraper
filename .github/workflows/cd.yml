@@ -15,7 +15,8 @@ jobs:
       - name: Install Flyctl
         run: curl -L https://fly.io/install.sh | sh
 
+      - name: Authenticate with Fly.io
+        run: ~/.fly/bin/flyctl auth login --access-token ${{ secrets.FLY_API_TOKEN }}
+
       - name: Deploy to Fly.io
-        run: |
-          ~/.fly/bin/flyctl auth token ${{ secrets.FLY_API_TOKEN }}
-          ~/.fly/bin/flyctl deploy --remote-only
+        run: ~/.fly/bin/flyctl deploy --remote-only
