@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "ollama-web-scrape",
   "builds": [
     {
       "src": "Dockerfile",
