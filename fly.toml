@@ -1,4 +1,4 @@
-app = "ollama-web-scrape"
+app = "ollama-web-scraper"
 primary_region = "fra"
 
 [build]
