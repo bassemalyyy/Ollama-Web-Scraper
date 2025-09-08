@@ -5,6 +5,10 @@ An intelligent web scraping tool that combines Selenium-based web scraping with 
 
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![Chainlit](https://img.shields.io/badge/chainlit-enabled-orange.svg) ![Ollama](https://img.shields.io/badge/ollama-llama3.2-red.svg)
 
+🎬 Video Demo
+-------------
+https://github.com/user-attachments/assets/217aa0f8-b070-4002-b9fb-de1634082a62
+
 ✨ Features
 ----------
 
@@ -31,7 +35,7 @@ An intelligent web scraping tool that combines Selenium-based web scraping with 
 
     ```bash
     git clone https://github.com/bassemalyyy/Ollama-Web-Scraper.git
-    cd ai-web-scraper
+    cd Ollama-Web-Scraper
     ```
 
 2.  **Create virtual environment**
@@ -263,4 +267,4 @@ parse article titles, authors, and publication dates
 
 * * * * *
 
-Made with ❤️ by [Bassem M. Aly]
+Made with ❤️ by [Bassem M. Aly](https://github.com/bassemalyyy)
