@@ -224,7 +224,7 @@ async def parse(url: str, query: str):
     result = await asyncio.get_event_loop().run_in_executor(None, parse_with_ollama, [cleaned_content], query, None)
     return {"url": url, "query": query, "result": result}
 
-# 🚀 Entry point (only if running locally, not needed in Docker CMD)
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
+# # 🚀 Entry point (only if running locally, not needed in Docker CMD)
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
