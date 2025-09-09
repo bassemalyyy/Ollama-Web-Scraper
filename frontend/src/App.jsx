@@ -1,6 +1,9 @@
 // import { useState } from "react";
 // import axios from "axios";
 
+// // This is a single-file React application.
+// // All components and styling are within this file.
+
 // const LoadingSpinner = () => (
 //   <div className="flex justify-center items-center mt-4">
 //     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -13,8 +16,10 @@
 //   const [scraped, setScraped] = useState(null);
 //   const [parsed, setParsed] = useState(null);
 //   const [loading, setLoading] = useState(false);
+//   const [scrapeMessage, setScrapeMessage] = useState("");
+//   const [parseMessage, setParseMessage] = useState("");
 
-//   // Backend base URL (Fly.io)
+//   // ✅ Replace with your Fly.io backend
 //   const BACKEND_URL = "https://ollama-web-scraper.fly.dev";
 
 //   const handleScrape = async () => {
@@ -22,13 +27,22 @@
 //     setLoading(true);
 //     setScraped(null);
 //     setParsed(null);
+//     setScrapeMessage("");
+//     setParseMessage("");
 //     try {
 //       const res = await axios.get(
 //         `${BACKEND_URL}/scrape?url=${encodeURIComponent(url)}`
 //       );
-//       setScraped(res.data.content);
+//       if (res.data && res.data.content && res.data.content.trim().length > 0) {
+//         setScraped(res.data.content);
+//         setScrapeMessage("✅ Scraping successful!");
+//       } else {
+//         console.warn("Backend response:", res.data);
+//         setScrapeMessage("⚠️ No content returned from backend.");
+//       }
 //     } catch (err) {
 //       console.error(err);
+//       setScrapeMessage("❌ Error scraping website.");
 //     } finally {
 //       setLoading(false);
 //     }
@@ -38,23 +52,31 @@
 //     if (!url || !query) return;
 //     setLoading(true);
 //     setParsed(null);
+//     setScrapeMessage("");
+//     setParseMessage("");
 //     try {
 //       const res = await axios.get(
 //         `${BACKEND_URL}/parse?url=${encodeURIComponent(url)}&query=${encodeURIComponent(
 //           query
 //         )}`
 //       );
-//       setParsed(res.data.result);
+//       if (res.data && res.data.result && res.data.result.trim().length > 0) {
+//         setParsed(res.data.result);
+//         setParseMessage("✅ Parsing successful!");
+//       } else {
+//         setParseMessage("⚠️ No parse results returned.");
+//       }
 //     } catch (err) {
 //       console.error(err);
+//       setParseMessage("❌ Error parsing website.");
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
 
 //   return (
-//     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4 font-sans">
-//       <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
+//     <div className="min-h-screen min-w-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4 font-sans">
+//       <div className="w-full h-full bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
 //         <h1 className="text-4xl font-extrabold text-white text-center mb-6 flex items-center justify-center">
 //           <svg
 //             className="w-10 h-10 mr-4 text-purple-400"
@@ -83,7 +105,11 @@
 //           </button>
 //         </div>
 
-//         {loading && <LoadingSpinner />}
+//         {scrapeMessage && (
+//           <div className="mt-2 text-center text-sm font-semibold">
+//             {scrapeMessage}
+//           </div>
+//         )}
 
 //         {scraped && (
 //           <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
@@ -91,7 +117,7 @@
 //               Scraped Content Preview
 //             </h2>
 //             <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
-//               {scraped.slice(0, 1000)}...
+//               {scraped.slice(0, 2000)}...
 //             </pre>
 //           </div>
 //         )}
@@ -112,6 +138,25 @@
 //             Parse
 //           </button>
 //         </div>
+
+//         {parseMessage && (
+//           <div className="mt-2 text-center text-sm font-semibold">
+//             {parseMessage}
+//           </div>
+//         )}
+
+//         {loading && <LoadingSpinner />}
+
+//         {scraped && (
+//           <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
+//             <h2 className="text-lg font-semibold text-white mb-2">
+//               Scraped Content Preview
+//             </h2>
+//             <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
+//               {scraped.slice(0, 2000)}...
+//             </pre>
+//           </div>
+//         )}
 
 //         {parsed && (
 //           <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
@@ -188,9 +233,9 @@ const App = () => {
     setParseMessage("");
     try {
       const res = await axios.get(
-        `${BACKEND_URL}/parse?url=${encodeURIComponent(url)}&query=${encodeURIComponent(
-          query
-        )}`
+        `${BACKEND_URL}/parse?url=${encodeURIComponent(
+          url
+        )}&query=${encodeURIComponent(query)}`
       );
       if (res.data && res.data.result && res.data.result.trim().length > 0) {
         setParsed(res.data.result);
@@ -207,8 +252,8 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen min-w-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4 font-sans">
-      <div className="w-full h-full bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
+    <div className="w-screen h-screen bg-gray-900 text-gray-100 font-sans">
+      <div className="w-full h-full bg-gray-800 rounded-none shadow-2xl p-8 overflow-y-auto">
         <h1 className="text-4xl font-extrabold text-white text-center mb-6 flex items-center justify-center">
           <svg
             className="w-10 h-10 mr-4 text-purple-400"
@@ -278,17 +323,6 @@ const App = () => {
         )}
 
         {loading && <LoadingSpinner />}
-
-        {scraped && (
-          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
-            <h2 className="text-lg font-semibold text-white mb-2">
-              Scraped Content Preview
-            </h2>
-            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
-              {scraped.slice(0, 2000)}...
-            </pre>
-          </div>
-        )}
 
         {parsed && (
           <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">

@@ -111,7 +111,7 @@ def get_enhanced_chrome_options():
     options = Options()
     
     # Stealth options to avoid detection
-    options.add_argument("--headless")  # Remove this line if you want to see the browser
+    options.add_argument("--headless=new")  # Remove this line if you want to see the browser
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
@@ -133,7 +133,6 @@ def get_enhanced_chrome_options():
     options.add_argument("--disable-extensions")
     options.add_argument("--disable-plugins")
     options.add_argument("--disable-images")  # Faster loading
-    options.add_argument("--disable-javascript")  # Sometimes helps bypass anti-bot measures
     options.add_argument("--disable-web-security")
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("--ignore-certificate-errors")
@@ -268,42 +267,58 @@ def extract_body_content(html_content):
         print(f"Error extracting body content: {str(e)}")
         return html_content
 
+# def clean_body_content(body_content):
+#     """Enhanced cleaning of body content"""
+#     try:
+#         soup = BeautifulSoup(body_content, "html.parser")
+        
+#         # Remove script and style elements
+#         for script_or_style in soup(["script", "style", "noscript"]):
+#             script_or_style.extract()
+            
+#         # Remove other unwanted elements
+#         for element in soup(["nav", "footer", "header", "aside"]):
+#             element.extract()
+            
+#         # Remove GitHub-specific auth elements
+#         for element in soup.find_all(attrs={"class": lambda x: x and any(cls in str(x).lower() for cls in ["auth", "signin", "login", "session"])}):
+#             element.extract()
+            
+#         # Remove elements with auth-related text
+#         for element in soup.find_all(text=lambda text: text and any(phrase in text.lower() for phrase in [
+#             "skip to content", "signed in with another tab", "signed out in another tab", 
+#             "reload to refresh your session", "dismiss alert"
+#         ])):
+#             if element.parent:
+#                 element.parent.extract()
+        
+#         cleaned_content = soup.get_text(separator="\n")
+#         cleaned_content = "\n".join(
+#             line.strip() for line in cleaned_content.splitlines() 
+#             if line.strip() and not any(phrase in line.lower() for phrase in [
+#                 "signed in with another tab", "signed out in another tab",
+#                 "reload to refresh your session", "dismiss alert", "skip to content"
+#             ])
+#         )
+        
+#         return cleaned_content
+        
+#     except Exception as e:
+#         print(f"Error cleaning body content: {str(e)}")
+#         return body_content
+
 def clean_body_content(body_content):
-    """Enhanced cleaning of body content"""
     try:
         soup = BeautifulSoup(body_content, "html.parser")
         
-        # Remove script and style elements
+        # Only remove scripts and styles
         for script_or_style in soup(["script", "style", "noscript"]):
             script_or_style.extract()
-            
-        # Remove other unwanted elements
-        for element in soup(["nav", "footer", "header", "aside"]):
-            element.extract()
-            
-        # Remove GitHub-specific auth elements
-        for element in soup.find_all(attrs={"class": lambda x: x and any(cls in str(x).lower() for cls in ["auth", "signin", "login", "session"])}):
-            element.extract()
-            
-        # Remove elements with auth-related text
-        for element in soup.find_all(text=lambda text: text and any(phrase in text.lower() for phrase in [
-            "skip to content", "signed in with another tab", "signed out in another tab", 
-            "reload to refresh your session", "dismiss alert"
-        ])):
-            if element.parent:
-                element.parent.extract()
-        
+
         cleaned_content = soup.get_text(separator="\n")
-        cleaned_content = "\n".join(
-            line.strip() for line in cleaned_content.splitlines() 
-            if line.strip() and not any(phrase in line.lower() for phrase in [
-                "signed in with another tab", "signed out in another tab",
-                "reload to refresh your session", "dismiss alert", "skip to content"
-            ])
-        )
+        cleaned_content = "\n".join(line.strip() for line in cleaned_content.splitlines() if line.strip())
         
         return cleaned_content
-        
     except Exception as e:
         print(f"Error cleaning body content: {str(e)}")
         return body_content
