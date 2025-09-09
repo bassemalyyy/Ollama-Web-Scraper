@@ -200,11 +200,21 @@
 
 import chainlit as cl
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from utils.web_scrape import scrape_website, extract_body_content, clean_body_content
 from utils.parse import parse_with_ollama
 import asyncio
 
 app = FastAPI()
+
+# ✅ Add CORS middleware so frontend can call backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or restrict to ["https://bassemalyyy.github.io"] for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Mount FastAPI app inside Chainlit
 cl.app = app  

@@ -133,6 +133,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+// This is a single-file React application.
+// All components and styling are within this file.
+
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center mt-4">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -200,8 +203,8 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-900 text-gray-100 font-sans">
-      <div className="w-full h-full bg-gray-800 p-8">
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4 font-sans">
+      <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
         <h1 className="text-4xl font-extrabold text-white text-center mb-6 flex items-center justify-center">
           <svg
             className="w-10 h-10 mr-4 text-purple-400"
@@ -230,6 +233,25 @@ const App = () => {
           </button>
         </div>
 
+        {loading && <LoadingSpinner />}
+
+        {message && (
+          <div className="mt-4 text-center text-sm font-semibold">
+            {message}
+          </div>
+        )}
+
+        {scraped && (
+          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
+            <h2 className="text-lg font-semibold text-white mb-2">
+              Scraped Content Preview
+            </h2>
+            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
+              {scraped.slice(0, 2000)}...
+            </pre>
+          </div>
+        )}
+
         <div className="flex flex-col md:flex-row gap-4 mt-6">
           <input
             type="text"
@@ -247,31 +269,12 @@ const App = () => {
           </button>
         </div>
 
-        {loading && <LoadingSpinner />}
-
-        {message && (
-          <div className="mt-4 text-center text-sm font-semibold">
-            {message}
-          </div>
-        )}
-
-        {scraped && (
-          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner h-[40vh] overflow-y-auto">
-            <h2 className="text-lg font-semibold text-white mb-2">
-              Scraped Content Preview
-            </h2>
-            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md">
-              {scraped.slice(0, 2000)}...
-            </pre>
-          </div>
-        )}
-
         {parsed && (
-          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner h-[40vh] overflow-y-auto">
+          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
             <h2 className="text-lg font-semibold text-white mb-2">
               Parsed Results
             </h2>
-            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md">
+            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
               {parsed}
             </pre>
           </div>
