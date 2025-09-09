@@ -44,6 +44,11 @@ jobs:
       - name: Build React app
         run: npm run build
 
+      - name: Configure Git identity
+        run: |
+          git config user.name "bassemalyyy"
+          git config user.email "bassemaly12@gmail.com"
+
       - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
