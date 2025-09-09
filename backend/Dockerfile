@@ -11,10 +11,10 @@ COPY . .
 # Install dependencies
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install chainlit
+RUN pip install chainlit uvicorn
 
-# Expose Chainlit port
-EXPOSE 8000
+# Expose Fly.io default port
+EXPOSE 8080
 
-# Run Chainlit
-CMD ["chainlit", "run", "main.py", "-h", "0.0.0.0", "-p", "8000"]
+# Run FastAPI + Chainlit mounted app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

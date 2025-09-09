@@ -5,10 +5,10 @@ primary_region = "fra"
   dockerfile = "Dockerfile"
 
 [env]
-  PORT = "8000"
+  PORT = "8080"
 
 [[services]]
-  internal_port = 8000
+  internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
 
