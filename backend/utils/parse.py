@@ -53,19 +53,27 @@
 
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-
-template = (
-    "You are tasked with extracting information from the following text: {dom_content}.\n\n"
-    "Instructions:\n"
-    "1. Extract only the information that matches: {parse_description}.\n"
-    "2. If you cannot find any matches, explicitly answer: 'Not found'.\n"
-    "3. Keep the answer short and direct, no explanations."
-)
+import json
 
 def parse_with_ollama(dom_chunks, parse_description, progress_callback=None):
     """Parse DOM content using Ollama LLM with improved fallbacks"""
     try:
         model = OllamaLLM(model="llama3.2")
+        
+        # New, more flexible template
+        template = (
+            "You are a world-class content analyzer. Your task is to analyze the following text "
+            "and provide a helpful, relevant, and concise response to the user's query.\n\n"
+            "Text to analyze: {dom_content}\n\n"
+            "User's Query: {parse_description}\n\n"
+            "Instructions:\n"
+            "1. Read and understand the text carefully.\n"
+            "2. Respond directly and accurately to the user's query based ONLY on the provided text.\n"
+            "3. If the answer is not present in the text, state so clearly and concisely, like 'The provided text does not contain information on that topic.'\n"
+            "4. Do not make up information.\n"
+            "5. The final output should be a single, unified response."
+        )
+
         prompt = ChatPromptTemplate.from_template(template) 
         chain = prompt | model
         
@@ -77,13 +85,14 @@ def parse_with_ollama(dom_chunks, parse_description, progress_callback=None):
                     progress_callback(f"Processing chunk {i} of {len(dom_chunks)}...")
 
                 response = chain.invoke({
-                    "dom_content": chunk[:6000],   # safety cutoff
+                    "dom_content": chunk[:6000],  # safety cutoff
                     "parse_description": parse_description
                 })
 
                 print(f"Parsed batch {i} of {len(dom_chunks)}: {response}")
 
-                if response and response.strip().lower() != "not found":
+                # Append non-empty responses
+                if response and response.strip():
                     parsed_results.append(response.strip())
                     
             except Exception as e:
@@ -96,7 +105,7 @@ def parse_with_ollama(dom_chunks, parse_description, progress_callback=None):
         if parsed_results:
             return "\n\n".join(parsed_results)
         else:
-            return "No relevant information found (parser ran but did not detect matches)."
+            return "The provided text does not contain information on that topic."
             
     except Exception as e:
         print(f"Error in parse_with_ollama: {str(e)}")
