@@ -148,7 +148,8 @@ const App = () => {
   const [scraped, setScraped] = useState(null);
   const [parsed, setParsed] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [scrapeMessage, setScrapeMessage] = useState("");
+  const [parseMessage, setParseMessage] = useState("");
 
   // ✅ Replace with your Fly.io backend
   const BACKEND_URL = "https://ollama-web-scraper.fly.dev";
@@ -158,20 +159,21 @@ const App = () => {
     setLoading(true);
     setScraped(null);
     setParsed(null);
-    setMessage("");
+    setScrapeMessage("");
+    setParseMessage("");
     try {
       const res = await axios.get(
         `${BACKEND_URL}/scrape?url=${encodeURIComponent(url)}`
       );
       if (res.data && res.data.content) {
         setScraped(res.data.content);
-        setMessage("✅ Scraping successful!");
+        setScrapeMessage("✅ Scraping successful!");
       } else {
-        setMessage("⚠️ No content returned from backend.");
+        setScrapeMessage("⚠️ No content returned from backend.");
       }
     } catch (err) {
       console.error(err);
-      setMessage("❌ Error scraping website.");
+      setScrapeMessage("❌ Error scraping website.");
     } finally {
       setLoading(false);
     }
@@ -181,7 +183,8 @@ const App = () => {
     if (!url || !query) return;
     setLoading(true);
     setParsed(null);
-    setMessage("");
+    setScrapeMessage("");
+    setParseMessage("");
     try {
       const res = await axios.get(
         `${BACKEND_URL}/parse?url=${encodeURIComponent(url)}&query=${encodeURIComponent(
@@ -190,13 +193,13 @@ const App = () => {
       );
       if (res.data && res.data.result) {
         setParsed(res.data.result);
-        setMessage("✅ Parsing successful!");
+        setParseMessage("✅ Parsing successful!");
       } else {
-        setMessage("⚠️ No parse results returned.");
+        setParseMessage("⚠️ No parse results returned.");
       }
     } catch (err) {
       console.error(err);
-      setMessage("❌ Error parsing website.");
+      setParseMessage("❌ Error parsing website.");
     } finally {
       setLoading(false);
     }
@@ -233,11 +236,9 @@ const App = () => {
           </button>
         </div>
 
-        {loading && <LoadingSpinner />}
-
-        {message && (
-          <div className="mt-4 text-center text-sm font-semibold">
-            {message}
+        {scrapeMessage && (
+          <div className="mt-2 text-center text-sm font-semibold">
+            {scrapeMessage}
           </div>
         )}
 
@@ -268,6 +269,25 @@ const App = () => {
             Parse
           </button>
         </div>
+
+        {parseMessage && (
+          <div className="mt-2 text-center text-sm font-semibold">
+            {parseMessage}
+          </div>
+        )}
+
+        {loading && <LoadingSpinner />}
+
+        {scraped && (
+          <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
+            <h2 className="text-lg font-semibold text-white mb-2">
+              Scraped Content Preview
+            </h2>
+            <pre className="whitespace-pre-wrap text-sm text-gray-300 p-2 bg-gray-800 rounded-md max-h-64 overflow-y-auto">
+              {scraped.slice(0, 2000)}...
+            </pre>
+          </div>
+        )}
 
         {parsed && (
           <div className="bg-gray-700 rounded-lg p-4 mt-4 shadow-inner">
