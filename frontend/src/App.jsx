@@ -165,10 +165,11 @@ const App = () => {
       const res = await axios.get(
         `${BACKEND_URL}/scrape?url=${encodeURIComponent(url)}`
       );
-      if (res.data && res.data.content) {
+      if (res.data && res.data.content && res.data.content.trim().length > 0) {
         setScraped(res.data.content);
         setScrapeMessage("✅ Scraping successful!");
       } else {
+        console.warn("Backend response:", res.data);
         setScrapeMessage("⚠️ No content returned from backend.");
       }
     } catch (err) {
@@ -191,7 +192,7 @@ const App = () => {
           query
         )}`
       );
-      if (res.data && res.data.result) {
+      if (res.data && res.data.result && res.data.result.trim().length > 0) {
         setParsed(res.data.result);
         setParseMessage("✅ Parsing successful!");
       } else {
@@ -206,8 +207,8 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
+    <div className="min-h-screen min-w-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4 font-sans">
+      <div className="w-full h-full bg-gray-800 rounded-lg shadow-2xl p-8 transform transition-all duration-500 hover:shadow-gray-700">
         <h1 className="text-4xl font-extrabold text-white text-center mb-6 flex items-center justify-center">
           <svg
             className="w-10 h-10 mr-4 text-purple-400"
