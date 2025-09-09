@@ -200,8 +200,8 @@
 
 import chainlit as cl
 from fastapi import FastAPI
-from ollama_web_scrape.backend.utils.web_scrape import scrape_website, extract_body_content, clean_body_content
-from ollama_web_scrape.backend.utils.parse import parse_with_ollama
+from utils.web_scrape import scrape_website, extract_body_content, clean_body_content
+from utils.parse import parse_with_ollama
 import asyncio
 
 app = FastAPI()
