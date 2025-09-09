@@ -178,9 +178,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-// This is a single-file React application.
-// All components and styling are within this file.
-
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center mt-4">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -196,7 +193,6 @@ const App = () => {
   const [scrapeMessage, setScrapeMessage] = useState("");
   const [parseMessage, setParseMessage] = useState("");
 
-  // ✅ Replace with your Fly.io backend
   const BACKEND_URL = "https://ollama-web-scraper.fly.dev";
 
   const handleScrape = async () => {
@@ -210,11 +206,10 @@ const App = () => {
       const res = await axios.get(
         `${BACKEND_URL}/scrape?url=${encodeURIComponent(url)}`
       );
-      if (res.data && res.data.content && res.data.content.trim().length > 0) {
+      if (res.data?.content?.trim()) {
         setScraped(res.data.content);
         setScrapeMessage("✅ Scraping successful!");
       } else {
-        console.warn("Backend response:", res.data);
         setScrapeMessage("⚠️ No content returned from backend.");
       }
     } catch (err) {
@@ -229,15 +224,12 @@ const App = () => {
     if (!url || !query) return;
     setLoading(true);
     setParsed(null);
-    setScrapeMessage("");
     setParseMessage("");
     try {
       const res = await axios.get(
-        `${BACKEND_URL}/parse?url=${encodeURIComponent(
-          url
-        )}&query=${encodeURIComponent(query)}`
+        `${BACKEND_URL}/parse?url=${encodeURIComponent(url)}&query=${encodeURIComponent(query)}`
       );
-      if (res.data && res.data.result && res.data.result.trim().length > 0) {
+      if (res.data?.result?.trim()) {
         setParsed(res.data.result);
         setParseMessage("✅ Parsing successful!");
       } else {
@@ -253,7 +245,9 @@ const App = () => {
 
   return (
     <div className="w-screen h-screen bg-gray-900 text-gray-100 font-sans">
-      <div className="w-full h-full bg-gray-800 rounded-none shadow-2xl p-8 overflow-y-auto">
+      {/* Fullscreen card */}
+      <div className="w-full h-full bg-gray-800 p-8 overflow-y-auto">
+        {/* Title */}
         <h1 className="text-4xl font-extrabold text-white text-center mb-6 flex items-center justify-center">
           <svg
             className="w-10 h-10 mr-4 text-purple-400"
@@ -265,6 +259,7 @@ const App = () => {
           AI Web Scraper
         </h1>
 
+        {/* URL Input */}
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <input
             type="text"
@@ -275,7 +270,7 @@ const App = () => {
           />
           <button
             onClick={handleScrape}
-            className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 transition-colors duration-200 rounded-lg font-bold text-white shadow-md active:bg-purple-800 disabled:opacity-50"
+            className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 transition-colors duration-200 rounded-lg font-bold text-white shadow-md disabled:opacity-50"
             disabled={loading || !url}
           >
             Scrape
@@ -299,6 +294,7 @@ const App = () => {
           </div>
         )}
 
+        {/* Query Input */}
         <div className="flex flex-col md:flex-row gap-4 mt-6">
           <input
             type="text"
@@ -309,7 +305,7 @@ const App = () => {
           />
           <button
             onClick={handleParse}
-            className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 transition-colors duration-200 rounded-lg font-bold text-white shadow-md active:bg-purple-800 disabled:opacity-50"
+            className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 transition-colors duration-200 rounded-lg font-bold text-white shadow-md disabled:opacity-50"
             disabled={loading || !url || !query}
           >
             Parse
