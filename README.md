@@ -9,7 +9,7 @@ The project integrates **Ollama** for AI-powered content extraction and supports
 
 # 🎥 Video Demo
 
-<video controls src="bandicam 2025-09-10 16-17-33-775.mp4" title="Title"></video>
+https://github.com/user-attachments/assets/e5bb8b18-dd37-47d6-96d1-0b3fc158b9dc
 
 * * * * *
 
