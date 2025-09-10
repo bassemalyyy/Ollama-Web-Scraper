@@ -6,6 +6,7 @@ primary_region = "fra"
 
 [env]
   PORT = "8080"
+  # GROQ_API_KEY will be set via flyctl secrets set command
 
 [[services]]
   internal_port = 8080
@@ -25,3 +26,13 @@ primary_region = "fra"
     timeout = "2s"
     grace_period = "1m"
     restart_limit = 0
+
+# Health check for the application
+[[services.http_checks]]
+  interval = "10s"
+  timeout = "5s"
+  grace_period = "1m"
+  method = "GET"
+  path = "/docs"
+  protocol = "http"
+  restart_limit = 0
