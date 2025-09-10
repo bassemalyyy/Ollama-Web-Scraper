@@ -70,7 +70,7 @@ def parse_with_groq(dom_chunks, parse_description, progress_callback=None):
         # Initialize Groq LLM (you can swap model with any available Groq model, e.g., "mixtral-8x7b-32768")
         model = ChatGroq(
             api_key=groq_api_key,
-            model="llama3-70b-8192"
+            model="llama-3.1-8b-instant"
         )
 
         # Prompt template
