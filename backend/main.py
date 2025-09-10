@@ -202,7 +202,7 @@ import chainlit as cl
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utils.web_scrape import scrape_website, extract_body_content, clean_body_content
-from utils.parse import parse_with_ollama
+from utils.parse import parse_with_groq
 import asyncio
 
 app = FastAPI()
@@ -231,7 +231,7 @@ async def parse(url: str, query: str):
     html_content = await asyncio.get_event_loop().run_in_executor(None, scrape_website, url)
     body_content = extract_body_content(html_content)
     cleaned_content = clean_body_content(body_content)
-    result = await asyncio.get_event_loop().run_in_executor(None, parse_with_ollama, [cleaned_content], query, None)
+    result = await asyncio.get_event_loop().run_in_executor(None, parse_with_groq, [cleaned_content], query, None)
     return {"url": url, "query": query, "result": result}
 
 # # 🚀 Entry point (only if running locally, not needed in Docker CMD)
