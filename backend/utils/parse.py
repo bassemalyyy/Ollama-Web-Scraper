@@ -59,7 +59,7 @@ def parse_with_groq(dom_chunks, parse_description, progress_callback=None):
     """Parse DOM content using Groq LLM with repo secrets (env vars)"""
     try:
         # ✅ Load API key from environment (repo secret will be available here)
-        api_key = os.environ.get("GROQ_API_KEY")
+        api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise ValueError("❌ GROQ_API_KEY not found. Make sure it's set in your repo secrets.")
 
