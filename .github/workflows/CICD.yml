@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: ./frontend/build
+          path: ./frontend/dist   # ✅ Vite outputs here
 
   deploy-pages:
     name: Deploy to GitHub Pages
